@@ -1,0 +1,28 @@
+{
+  "name": "ingame",
+  "private": true,
+  "version": "0.2.0",
+  "description": "Lightweight PUBG PC input-language and focus guard for Windows",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "author": "eatsbricks",
+  "homepage": "https://github.com/eatsbricks/InGame",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eatsbricks/InGame.git"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "tauri": "tauri",
+    "test": "node --test src/rebind.test.ts"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "~2.11.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "~2.11.0",
+    "typescript": "^5",
+    "vite": "^6"
+  }
+}

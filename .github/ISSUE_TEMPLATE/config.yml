@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 คำถามที่พบบ่อย / FAQ
+    url: https://github.com/eatsbricks/InGame#faq
+    about: ดูวิธีแก้ปัญหาที่พบบ่อยก่อนเปิด Issue
+  - name: 🔒 แจ้งช่องโหว่ความปลอดภัย / Report a vulnerability
+    url: https://github.com/eatsbricks/InGame/security/advisories/new
+    about: แจ้งแบบส่วนตัว อย่าเปิด Issue สาธารณะ

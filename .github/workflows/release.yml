@@ -1,0 +1,104 @@
+name: Release
+
+# Push a tag like `v0.2.0` to build the installer and portable exe
+# and open a draft GitHub Release with checksums and notes from CHANGELOG.md.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Windows release
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test
+        run: |
+          npm test
+          cargo test --manifest-path src-tauri/Cargo.toml --locked
+
+      - name: Build
+        run: npm run tauri build
+
+      - name: Collect artifacts
+        id: collect
+        shell: pwsh
+        run: |
+          $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          if ($env:GITHUB_REF_TYPE -eq 'tag' -and $env:GITHUB_REF_NAME -ne "v$version") {
+            throw "Tag $env:GITHUB_REF_NAME does not match package.json version $version"
+          }
+
+          New-Item -ItemType Directory -Force out | Out-Null
+          $setup = Get-ChildItem src-tauri/target/release/bundle/nsis/*.exe | Select-Object -First 1
+          Copy-Item $setup.FullName "out/InGame-Setup-$version.exe"
+          Copy-Item src-tauri/target/release/ingame.exe "out/InGame-$version-portable.exe"
+
+          $sums = Get-ChildItem out/*.exe | Sort-Object Name | ForEach-Object {
+            "{0}  {1}" -f (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower(), $_.Name
+          }
+          $sums | Set-Content out/SHA256SUMS.txt -Encoding utf8
+
+          $changelog = Get-Content CHANGELOG.md -Raw -Encoding utf8
+          $pattern = "(?ms)^## \[$([regex]::Escape($version))\][^\r\n]*\r?\n(.*?)(?=^## |^\[|\z)"
+          $notes = [regex]::Match($changelog, $pattern).Groups[1].Value.Trim()
+          if (-not $notes) { $notes = "See [CHANGELOG.md](CHANGELOG.md)." }
+
+          $body = @"
+          $notes
+
+          ## 📥 ดาวน์โหลด / Download
+
+          | ไฟล์ / File | |
+          | --- | --- |
+          | **InGame-Setup-$version.exe** | ✅ แนะนำ ตัวติดตั้ง / Recommended installer |
+          | InGame-$version-portable.exe | แบบพกพา ไม่ต้องติดตั้ง / Portable, no install |
+
+          ต้องการ Windows 10 (1903+) หรือ Windows 11 แบบ 64-bit
+          ถ้าขึ้น "Windows protected your PC" ให้กด **More info → Run anyway**
+
+          ## 🔐 SHA-256
+
+          ``````text
+          $($sums -join "`n")
+          ``````
+          "@
+          $body | Set-Content out/RELEASE_NOTES.md -Encoding utf8
+
+          "version=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: InGame-${{ steps.collect.outputs.version }}
+          path: out/
+
+      - name: Create draft release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          name: InGame v${{ steps.collect.outputs.version }}
+          body_path: out/RELEASE_NOTES.md
+          files: |
+            out/*.exe
+            out/SHA256SUMS.txt

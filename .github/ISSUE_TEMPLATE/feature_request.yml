@@ -1,0 +1,22 @@
+name: 💡 เสนอไอเดีย / Feature request
+description: อยากให้เพิ่มหรือปรับอะไร / Suggest an idea
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: ปัญหาที่เจอ / What problem does it solve?
+      placeholder: เช่น ผมมักเผลอกดปุ่ม ... ระหว่างเล่น
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: ไอเดีย / Your idea
+      description: อยากให้โปรแกรมทำอะไร
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: ข้อมูลเพิ่มเติม / Additional context

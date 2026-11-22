@@ -1,0 +1,60 @@
+name: 🐞 แจ้งบั๊ก / Bug report
+description: โปรแกรมทำงานไม่ถูกต้อง / Something isn't working
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ขอบคุณที่ช่วยแจ้งปัญหา ก่อนส่งกรุณาดู [คำถามที่พบบ่อย](https://github.com/eatsbricks/InGame#faq) ก่อน
+        Thanks for reporting! Please check the [FAQ](https://github.com/eatsbricks/InGame/blob/main/README.en.md#faq) first.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: เกิดอะไรขึ้น / What happened?
+      description: อธิบายสั้น ๆ ว่าเจออะไร และคาดว่าควรเป็นแบบไหน
+      placeholder: เช่น เข้าเกมแล้วภาษายังเป็นภาษาไทยอยู่
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: ขั้นตอนที่ทำให้เกิดปัญหา / Steps to reproduce
+      placeholder: |
+        1. เปิด InGame
+        2. เปิด PUBG
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: เวอร์ชัน InGame / InGame version
+      placeholder: "0.2.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: windows
+    attributes:
+      label: Windows
+      options:
+        - Windows 11
+        - Windows 10
+    validations:
+      required: true
+  - type: input
+    id: languages
+    attributes:
+      label: ภาษา/แป้นพิมพ์ที่ติดตั้ง / Installed keyboard layouts
+      placeholder: เช่น Thai Kedmanee, English (US)
+  - type: dropdown
+    id: build
+    attributes:
+      label: ใช้แบบไหน / Build
+      options:
+        - ตัวติดตั้ง / Installer
+        - แบบพกพา / Portable
+  - type: textarea
+    id: extra
+    attributes:
+      label: ข้อมูลเพิ่มเติม / Additional context
+      description: ภาพหน้าจอ ข้อความแจ้งเตือนในหน้าต่างโปรแกรม หรือเปิด Steam/PUBG แบบ Admin อยู่หรือไม่

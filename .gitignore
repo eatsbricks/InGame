@@ -1,0 +1,12 @@
+/target
+/src-tauri/target
+/src-tauri/gen/schemas
+/node_modules
+/dist
+/release
+/.superpowers
+*.log
+/.playwright-cli
+
+# Internal planning notes (kept locally, not published)
+/docs/superpowers

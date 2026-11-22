@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InGame</title>
+  </head>
+  <body>
+    <div id="app" class="app-shell" data-state="Standby">
+      <header class="header" data-tauri-drag-region>
+        <div class="brand">
+          <span id="status-dot" class="status-dot" aria-hidden="true"></span>
+          <h1 class="brand-title">InGame</h1>
+        </div>
+        <div class="header-actions">
+          <button
+            type="button"
+            id="status-btn"
+            class="status-btn"
+            title="คลิกเพื่อพักการป้องกันชั่วคราว"
+            aria-label="สถานะ: Standby — คลิกเพื่อพักการป้องกันชั่วคราว"
+          >
+            Standby
+          </button>
+          <button
+            type="button"
+            id="close-btn"
+            class="close-btn"
+            title="ซ่อนไปที่ System Tray"
+            aria-label="ซ่อนไปที่ System Tray"
+          >
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 10 10"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M1.75 1.75L8.25 8.25M8.25 1.75L1.75 8.25"
+                stroke="currentColor"
+                stroke-width="1.4"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="settings-list">
+        <div class="setting-row">
+          <div class="row-copy">
+            <span id="label-lock-language" class="row-label">ล็อกภาษาอังกฤษ</span>
+            <span id="sub-lock-language" class="row-sub">Auto EN, ~, Alt+Shift, Win+Space</span>
+          </div>
+          <button
+            type="button"
+            id="toggle-lock-language"
+            class="switch"
+            role="switch"
+            aria-checked="true"
+            aria-labelledby="label-lock-language"
+            aria-describedby="sub-lock-language"
+          >
+            <span class="switch-thumb" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <div class="row-copy">
+            <span id="label-block-minimize" class="row-label">กันพับจอเกม</span>
+            <span id="sub-block-minimize" class="row-sub">Win, Alt+Tab, Sticky Keys</span>
+          </div>
+          <button
+            type="button"
+            id="toggle-block-minimize"
+            class="switch"
+            role="switch"
+            aria-checked="true"
+            aria-labelledby="label-block-minimize"
+            aria-describedby="sub-block-minimize"
+          >
+            <span class="switch-thumb" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <div class="row-copy">
+            <span id="label-block-caps-lock" class="row-label">กันปุ่ม Caps Lock</span>
+            <span id="sub-block-caps-lock" class="row-sub">ปลดค้างตอนเข้าเกม + กันกดในเกม</span>
+          </div>
+          <button
+            type="button"
+            id="toggle-block-caps-lock"
+            class="switch"
+            role="switch"
+            aria-checked="true"
+            aria-labelledby="label-block-caps-lock"
+            aria-describedby="sub-block-caps-lock"
+          >
+            <span class="switch-thumb" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <div class="row-copy">
+            <span id="label-escape-key" class="row-label">ปุ่มพับจอออก</span>
+            <span
+              id="rebind-hint"
+              class="row-sub row-feedback"
+              aria-live="polite"
+              hidden
+            ></span>
+          </div>
+          <button
+            type="button"
+            id="escape-key-btn"
+            class="keycap-btn"
+            aria-labelledby="label-escape-key"
+            aria-describedby="rebind-hint"
+            aria-pressed="false"
+            title="คลิกเพื่อเปลี่ยนปุ่มพับจอออก"
+          >
+            F10
+          </button>
+        </div>
+
+        <div class="setting-row">
+          <div class="row-copy">
+            <span id="label-launch-startup" class="row-label">เปิดพร้อม Windows</span>
+          </div>
+          <button
+            type="button"
+            id="toggle-launch-startup"
+            class="switch"
+            role="switch"
+            aria-checked="false"
+            aria-labelledby="label-launch-startup"
+          >
+            <span class="switch-thumb" aria-hidden="true"></span>
+          </button>
+        </div>
+      </main>
+
+      <footer id="notices" class="notices" aria-live="polite" hidden>
+        <p
+          id="notice-no-en"
+          class="notice"
+          title="ไม่พบแป้นพิมพ์ภาษาอังกฤษใน Windows"
+          hidden
+        >
+          ไม่พบแป้นพิมพ์ภาษาอังกฤษใน Windows
+        </p>
+        <p
+          id="notice-elevation"
+          class="notice"
+          title="PUBG รันสิทธิ์ Admin — บางปุ่มอาจไม่ถูกบล็อก"
+          hidden
+        >
+          PUBG รันสิทธิ์ Admin — บางปุ่มอาจไม่ถูกบล็อก
+        </p>
+        <p id="notice-error" class="notice notice-error" hidden></p>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
